@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:getfunds/formularios/register.dart';
+import 'package:lottie/lottie.dart';
 
 class Splash extends StatelessWidget {
   const Splash({super.key});
@@ -19,18 +20,11 @@ class Splash extends StatelessWidget {
         ),
         Positioned(
           child: AnimatedSplashScreen(
-              splash: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('img/GetFundsLogoPequeño.png')
-                  )
-                ),
-              ),
+              splash: Lottie.asset('img/GetFundsGif.json'),
               nextScreen: Register(),
-            duration: 5000,
+            duration: 2400,
             splashIconSize: 600,
-            splashTransition: SplashTransition.decoratedBoxTransition,
-            animationDuration: const Duration(seconds: 2),
+            splashTransition: SplashTransition.fadeTransition,
           ),
         ),
       ],
