@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:getfunds/splash.dart';
 
 void main() {
   runApp(const GetFunds());
@@ -10,9 +11,9 @@ class GetFunds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(),
-        body: Container(),
+        body: Splash(),
       ),
     );
   }
