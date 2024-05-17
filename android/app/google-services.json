@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "915683707396",
+    "project_id": "getfunds-d99f9",
+    "storage_bucket": "getfunds-d99f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915683707396:android:846f328b5921681e2a8351",
+        "android_client_info": {
+          "package_name": "com.example.bd_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcip-CCQsJhIXdL2cs80d1QMALAQISeoY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915683707396:android:e8ccdbccbb79284c2a8351",
+        "android_client_info": {
+          "package_name": "com.example.getfunds"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcip-CCQsJhIXdL2cs80d1QMALAQISeoY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
