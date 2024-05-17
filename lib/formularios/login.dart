@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:getfunds/colores.dart';
+import 'package:getfunds/formularios/usuarios.dart';
+import 'package:getfunds/vistas/ahorro.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
 
-  final Color colorPrincipal = Color.fromRGBO(17,152,34,1);
-  final Color colorSecundario = Color.fromRGBO(42,114,33,1);
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+
+  Usuarios mial = Usuarios();
+
+  final _formKey = GlobalKey<FormState>();
+  late String _emailController;
+  late String _passwordController;
 
   @override
   Widget build(BuildContext context) {
@@ -47,50 +59,71 @@ class Login extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
-                    Column(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width*1,
-                          child: TextField(
-                            cursorColor: colorSecundario,
-                            decoration: InputDecoration(
-                              labelText: 'Correo',
-                              labelStyle: TextStyle(color: colorSecundario),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: colorSecundario),
-                                  borderRadius: BorderRadius.circular(50)
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width*1,
+                            child: TextFormField(
+                              cursorColor: colorSecundario,
+                              decoration: InputDecoration(
+                                labelText: 'Correo',
+                                labelStyle: TextStyle(color: colorSecundario),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: colorSecundario),
+                                    borderRadius: BorderRadius.circular(50)
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius:BorderRadius.circular(50),
+                                    borderSide: BorderSide(color: colorSecundario)
+                                ),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius:BorderRadius.circular(50),
-                                  borderSide: BorderSide(color: colorSecundario)
-                              ),
-
+                              validator: (value){
+                                if(value==null||value.isEmpty){
+                                  return 'Ingrese su correo';
+                                }else{
+                                  return null;
+                                }
+                              },
+                              onSaved: (value){
+                                _emailController=value!;
+                              },
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width*1,
-                          child: TextField(
-                            cursorColor: colorSecundario,
-                            decoration: InputDecoration(
-                              labelText: 'Contraseña',
-                              labelStyle: TextStyle(color: colorSecundario),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: colorSecundario),
-                                  borderRadius: BorderRadius.circular(50)
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius:BorderRadius.circular(50),
-                                  borderSide: BorderSide(color: colorSecundario)
-                              ),
-
-                            ),
+                          SizedBox(
+                            height: 15,
                           ),
-                        )
-                      ],
+                          Container(
+                            width: MediaQuery.of(context).size.width*1,
+                            child: TextFormField(
+                              cursorColor: colorSecundario,
+                              decoration: InputDecoration(
+                                labelText: 'Contraseña',
+                                labelStyle: TextStyle(color: colorSecundario),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: colorSecundario),
+                                    borderRadius: BorderRadius.circular(50)
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius:BorderRadius.circular(50),
+                                    borderSide: BorderSide(color: colorSecundario)
+                                ),
+                              ),
+                              validator: (value){
+                                if(value==null||value.isEmpty){
+                                  return 'Ingrese su contraseña';
+                                }else{
+                                  return null;
+                                }
+                              },
+                              onSaved: (value){
+                                _passwordController=value!;
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -124,7 +157,21 @@ class Login extends StatelessWidget {
                                 backgroundColor: colorPrincipal,
                                 elevation: 3
                             ),
-                            onPressed: (){},
+                            onPressed: ()async{
+                              if(_formKey.currentState!.validate()){
+                                _formKey.currentState!.save();
+                                var dato = await mial.loginUsuario(_emailController, _passwordController);
+                                if(dato==2){
+                                  print('Contraseña Incorrecta');
+                                }else if(dato==3){
+                                  print('Correo Incorrecto');
+                                }else if(dato==1){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Ahorro()));
+                                }else{
+                                  print('error');
+                                }
+                              }
+                            },
                             child: Text("Iniciar Sesión",
                               style: TextStyle(
                                   color: Colors.white,
