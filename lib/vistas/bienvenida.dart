@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:getfunds/formularios/login.dart';
 import 'package:getfunds/formularios/register.dart';
+import 'package:getfunds/colores.dart';
 
 class Bienvenida extends StatelessWidget {
-  final Color colorPrincipal = Color.fromRGBO(17,152,34,1);
-  final Color colorSecundario = Color.fromRGBO(42,114,33,1);
 
   @override
   Widget build(BuildContext context) {
