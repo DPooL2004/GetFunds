@@ -155,7 +155,9 @@ class _RegisterState extends State<Register> {
                           style: FilledButton.styleFrom(
                             backgroundColor: Colors.transparent
                           ),
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
+                            },
                             child: Text("¿Ya tienes una cuenta?",
                               style: TextStyle(
                                 color: colorPrincipal,
