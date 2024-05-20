@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
+import 'package:getfunds/formularios/register.dart';
 import 'package:getfunds/formularios/usuarios.dart';
 import 'package:getfunds/vistas/ahorro.dart';
 
@@ -189,7 +190,9 @@ class _LoginState extends State<Login> {
                           style: FilledButton.styleFrom(
                             backgroundColor: Colors.transparent
                           ),
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Register()));
+                            },
                             child: Text("¿No tienes una cuenta?",
                               style: TextStyle(
                                   color: colorPrincipal,
