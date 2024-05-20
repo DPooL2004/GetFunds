@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
 import 'package:getfunds/formularios/usuarios.dart';
+import 'package:getfunds/home.dart';
 import 'package:getfunds/vistas/ahorro.dart';
 
 class Login extends StatefulWidget {
@@ -166,7 +167,7 @@ class _LoginState extends State<Login> {
                                 }else if(dato==3){
                                   print('Correo Incorrecto');
                                 }else if(dato==1){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Ahorro()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>home()));
                                 }else{
                                   print('error');
                                 }
