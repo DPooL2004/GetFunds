@@ -17,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<QuerySnapshot> getData() async {
-    return FirebaseFirestore.instance.collection('ingresos').get();
+    return FirebaseFirestore.instance.collection('Registros').get();
   }
 
   @override
@@ -48,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           backgroundColor: Colors.grey,
 
                           title: Text(data['Categoria']),
+                          leading: Icon(Icons.accessibility_outlined),
                           children: [
                             Text('Valor: ${data['Valor']}'),
                           ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
 import 'package:getfunds/conexion.dart';
 import 'package:getfunds/registros.dart';
+import 'package:getfunds/vistas/ahorro.dart';
 
 class home extends StatefulWidget { // Make it StatefulWidget
   const home({super.key});
@@ -17,7 +18,7 @@ class _HomeState extends State<home> { // State class for Home
     return Scaffold(
       body: Container(
         child: Column(
-
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
@@ -34,6 +35,36 @@ class _HomeState extends State<home> { // State class for Home
               ],
             ),
             Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    child: Text('Agregar',
+                    style: TextStyle(
+                      color: colorPrincipal,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      fontFamily: 'Jost'
+                    ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: colorPrincipal,
+                        shape: CircleBorder()
+                    ),
+                    onPressed: (){},
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 40,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 10,),
+            Container(
               width: 300,
               height: 200,
               decoration: BoxDecoration(
@@ -49,7 +80,8 @@ class _HomeState extends State<home> { // State class for Home
                       style: TextStyle(
                         color: Color.fromRGBO(87, 87, 87, 1),
                         fontWeight: FontWeight.bold,
-                        fontSize: 18
+                        fontSize: 18,
+                        fontFamily: 'Jost'
                       ),),
                     ),
                   ),
@@ -58,7 +90,8 @@ class _HomeState extends State<home> { // State class for Home
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontSize: 18
+                      fontSize: 18,
+                        fontFamily: 'Jost'
                     ),),
                   ),
                   Container(
@@ -80,7 +113,8 @@ class _HomeState extends State<home> { // State class for Home
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16
+                                fontSize: 16,
+                                fontFamily: 'Jost'
                             ),),
                         ),
                         Container(
@@ -89,7 +123,8 @@ class _HomeState extends State<home> { // State class for Home
                             style: TextStyle(
                                 color: colorPrincipal,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18
+                                fontSize: 18,
+                                fontFamily: 'Jost'
                             ),),
                         ),
                       ],
@@ -114,7 +149,8 @@ class _HomeState extends State<home> { // State class for Home
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 16
+                                fontSize: 16,
+                                fontFamily: 'Jost'
                             ),),
                         ),
                         Container(
@@ -123,7 +159,8 @@ class _HomeState extends State<home> { // State class for Home
                             style: TextStyle(
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18
+                                fontSize: 18,
+                                fontFamily: 'Jost'
                             ),),
                         ),
                       ],
@@ -157,7 +194,8 @@ class _HomeState extends State<home> { // State class for Home
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18
+                                fontSize: 18,
+                                fontFamily: 'Jost'
                             ),),
                         ),
                       ],
@@ -174,7 +212,8 @@ class _HomeState extends State<home> { // State class for Home
                     style: TextStyle(
                         color: colorPrincipal,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20
+                        fontSize: 20,
+                        fontFamily: 'Jost'
                     ),
                   ),
                 ),
@@ -182,15 +221,16 @@ class _HomeState extends State<home> { // State class for Home
             ),
             /*Se trae desde BD los registros en registros.dart*/
             Container(
-              height: 452,
+              height: 300,
               child: MyHomePage(),
             ),
             Container(
+              padding: EdgeInsets.only(top: 0, bottom: 10, left: 20, right: 20),
               child: Container(
                 height: 50,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Color.fromRGBO(2,114,33,1),
+                  color: colorPrincipal,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -214,7 +254,11 @@ class _HomeState extends State<home> { // State class for Home
                         style: FilledButton.styleFrom(
                             backgroundColor: Colors.transparent
                         ),
-                        onPressed: (){},
+                        onPressed: (){
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context)=>Ahorro())
+                          );
+                        },
                         child: Container(
                           height: 25,
                           width: 25,
