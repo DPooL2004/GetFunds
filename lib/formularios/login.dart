@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:getfunds/colores.dart';
+import 'package:getfunds/formularios/recuperar_Contrase%C3%B1a.dart';
 import 'package:getfunds/formularios/register.dart';
 import 'package:getfunds/formularios/usuarios.dart';
 import 'package:getfunds/vistas/ahorro.dart';
@@ -189,7 +190,11 @@ class _LoginState extends State<Login> {
                             style: FilledButton.styleFrom(
                                 backgroundColor: Colors.transparent
                             ),
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.push(context, 
+                                  MaterialPageRoute(builder: (context)=>Recuperacion())
+                              );
+                            },
                             child: Text("¿Olvidaste tu Contraseña?",
                               style: TextStyle(
                                   color: colorPrincipal,
