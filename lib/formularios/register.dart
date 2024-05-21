@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
 import 'package:getfunds/formularios/login.dart';
 import 'package:getfunds/formularios/usuarios.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Register extends StatefulWidget {
 
@@ -16,7 +17,8 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   late String _emailController;
   late String _passwordController;
-  late String _ConfirmpasswordController;
+  final _passwordController2 = TextEditingController();
+  final _confirmPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +100,7 @@ class _RegisterState extends State<Register> {
                           Container(
                             width: MediaQuery.of(context).size.width*1,
                             child: TextFormField(
+                              controller: _passwordController2,
                               cursorColor: colorSecundario,
                               decoration: InputDecoration(
                                 labelText: 'Contraseña',
@@ -128,7 +131,8 @@ class _RegisterState extends State<Register> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width*1,
-                            child: TextField(
+                            child: TextFormField(
+                              controller: _confirmPassword,
                               cursorColor: colorSecundario,
                               decoration: InputDecoration(
                                 labelText: 'Confirmar Contraseña',
@@ -141,8 +145,16 @@ class _RegisterState extends State<Register> {
                                     borderRadius:BorderRadius.circular(50),
                                     borderSide: BorderSide(color: colorSecundario)
                                 ),
-
                               ),
+                              validator:(value){
+                                if(value==null||value.isEmpty){
+                                  Fluttertoast.showToast(msg: 'Confirma tu contraseña');
+                                }
+                                if(value!=_passwordController2.text){
+                                  Fluttertoast.showToast(msg: 'Las contraseñas no coinciden, por favor vuelve a escribirla');
+                                }
+                                return null;
+                              }
                             ),
                           )
                         ],
@@ -186,11 +198,24 @@ class _RegisterState extends State<Register> {
                               if(_formKey.currentState!.validate()){
                                 _formKey.currentState!.save();
                                 var dato = await mial.registerUsuario(_emailController, _passwordController);
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
-                                if(dato==2){
-                                  print('Nivel de Seguridad debil');
-                                }else if(dato==3){
-                                  print('Correo ya registrado');
+                                if(dato==3){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
+                                }else if(dato==1){
+                                  Fluttertoast.showToast(
+                                      msg: 'Contraseña Débil',
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    gravity: ToastGravity.BOTTOM,
+                                    toastLength: Toast.LENGTH_SHORT
+                                  );
+                                }else if(dato==2){
+                                  Fluttertoast.showToast(
+                                      msg: 'Correo ya Registrado',
+                                      backgroundColor: Colors.yellow,
+                                      textColor: Colors.white,
+                                      gravity: ToastGravity.BOTTOM,
+                                      toastLength: Toast.LENGTH_SHORT
+                                  );
                                 }
                               }
                             },
