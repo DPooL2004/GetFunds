@@ -8,15 +8,18 @@ class Usuarios{
       UserCredential uc = await FirebaseAuth.instance.
       createUserWithEmailAndPassword(email: correo, password: password);
       print(uc.user);
-      return(uc.user);
+      return 3;
     }on FirebaseAuthException catch(e){
       if(e.code=='weak-password'){
-        print('El password');
+        print('El password es debil');
         return 1;
-      }else if(e.code == 'email-already--in-use'){
-        print('ya existe');
+      }else if(e.code == 'email-already-in-use'){
+        print('el correo ya existe');
         return 2;
       }
+    }catch (e){
+      print(e);
+      return 0;
     }
   }
 

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:getfunds/colores.dart';
+import 'package:getfunds/formularios/recuperar_Contrase%C3%B1a.dart';
 import 'package:getfunds/formularios/register.dart';
 import 'package:getfunds/formularios/usuarios.dart';
-import 'package:getfunds/home.dart';
 import 'package:getfunds/vistas/ahorro.dart';
+import 'package:getfunds/vistas/home.dart';
+import 'package:local_auth/local_auth.dart';
 
 class Login extends StatefulWidget {
 
@@ -12,6 +15,59 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  final LocalAuthentication _auth = LocalAuthentication();
+  bool _checkBio = false;
+  bool _isBioFinger= false;
+  bool _isAuthenticated = false;
+
+  void initState(){
+    super.initState();
+    _checkBiometric();
+    _listBioAndFingerType();
+  }
+
+  void _checkBiometric()async{
+    try{
+      final bio = await _auth.canCheckBiometrics;
+      setState((){
+        _checkBio = bio;
+      });
+      print('Biometrics = $_checkBio');
+    }catch (e){}
+  }
+
+  void _listBioAndFingerType()async{
+    late List<BiometricType> _listType;
+
+    try{
+      _listType = await _auth.getAvailableBiometrics();
+    }on PlatformException catch(e){
+      print(e.message);
+    }
+
+    print('List Biometric = $_listType');
+
+    if(_listType.contains(BiometricType.fingerprint)){
+      setState((){
+        _isBioFinger = true;
+      });
+      print('Fingerprint is $_isBioFinger');
+    }
+  }
+
+  void _startAuth()async{
+    try{
+      _isAuthenticated = await _auth.authenticate(
+          localizedReason: 'Escanea tu huella'
+      );
+    }on PlatformException catch(e){
+      print(e.message);
+    }
+    if(_isAuthenticated){
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>home()));
+    }
+  }
 
   Usuarios mial = Usuarios();
 
@@ -134,7 +190,11 @@ class _LoginState extends State<Login> {
                             style: FilledButton.styleFrom(
                                 backgroundColor: Colors.transparent
                             ),
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.push(context, 
+                                  MaterialPageRoute(builder: (context)=>Recuperacion())
+                              );
+                            },
                             child: Text("¿Olvidaste tu Contraseña?",
                               style: TextStyle(
                                   color: colorPrincipal,
@@ -168,7 +228,7 @@ class _LoginState extends State<Login> {
                                 }else if(dato==3){
                                   print('Correo Incorrecto');
                                 }else if(dato==1){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>home()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Ahorro()));
                                 }else{
                                   print('error');
                                 }
@@ -202,6 +262,10 @@ class _LoginState extends State<Login> {
                                   fontSize: 17
                               ),
                             )
+                        ),
+                        IconButton(
+                            onPressed: _startAuth,
+                            icon: Icon(Icons.fingerprint)
                         )
                       ],
                     )
@@ -215,3 +279,5 @@ class _LoginState extends State<Login> {
     );
   }
 }
+
+
