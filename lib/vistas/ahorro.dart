@@ -72,16 +72,31 @@ class Ahorro extends StatelessWidget {
                     padding: EdgeInsets.only(top: 0, bottom: 10, left: 20, right: 20),
                     child: ListView(
                       children: [
-                        ListTile(
-                          title: Text("Viajes"),
-                          subtitle: Text('300000'),
-                          leading: Container(
-                            height: 20,
-                            width: 20,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('img/cartera.png')
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                spreadRadius: 1,
+                                blurRadius: 3,
+                                offset: Offset(0,2)
                               )
+                            ]
+                          ),
+                          child: ListTile(
+                            trailing: Icon(Icons.keyboard_arrow_down_rounded),
+                            title: Text("Viajes"),
+                            subtitle: Text('300000'),
+                            leading: Container(
+                              height: 20,
+                              width: 20,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('img/cartera.png')
+                                )
+                              ),
                             ),
                           ),
                         )
@@ -144,7 +159,11 @@ class Ahorro extends StatelessWidget {
                             style: FilledButton.styleFrom(
                                 backgroundColor: Colors.transparent
                             ),
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context)=>Estadisticas())
+                              );
+                            },
                             child: Container(
                               height: 25,
                               width: 25,
@@ -159,7 +178,11 @@ class Ahorro extends StatelessWidget {
                             style: FilledButton.styleFrom(
                                 backgroundColor: Colors.transparent
                             ),
-                            onPressed: (){},
+                            onPressed: (){
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context)=>Ajustes())
+                              );
+                            },
                             child: Container(
                               height: 25,
                               width: 25,
