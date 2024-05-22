@@ -226,16 +226,24 @@ class _LoginState extends State<Login> {
                                 var dato = await mial.loginUsuario(_emailController, _passwordController);
                                 if(dato==2){
                                   print('Contraseña Incorrecta');
+                                  Fluttertoast.showToast(
+                                      msg: 'Contraseña Incorrecta',
+                                      backgroundColor: colorPrincipal,
+                                      textColor: Colors.red,
+                                      fontSize: 16,
+                                    gravity: ToastGravity.BOTTOM_LEFT
+                                  );
                                 }else if(dato==3){
                                   print('Correo Incorrecto');
-                                }else if(dato==1){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Ahorro()));
                                   Fluttertoast.showToast(
-                                      msg: 'Bienvenido',
-                                    backgroundColor: colorPrincipal,
-                                    textColor: Colors.white,
-                                    fontSize: 20
+                                      msg: 'Correo Incorrecto',
+                                      backgroundColor: colorPrincipal,
+                                      textColor: Colors.red,
+                                      fontSize: 16,
+                                    gravity: ToastGravity.BOTTOM_LEFT
                                   );
+                                }else if(dato==1){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>home()));
                                 }else{
                                   print('error');
                                 }
