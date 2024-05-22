@@ -40,18 +40,20 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       Map<String, dynamic> data = snapshot.data!.docs[index].data() as Map<String, dynamic>;
-                      return GestureDetector(
-                        /*onTap: () {
-                          // Acciones a realizar cuando se toca el elemento
-                        },*/
-                        child: ExpansionTile(
-                          backgroundColor: Colors.grey,
-
-                          title: Text(data['Categoria']),
-                          leading: Icon(Icons.accessibility_outlined),
-                          children: [
-                            Text('Valor: ${data['Valor']}'),
-                          ],
+                      return Container(
+                        /*DECORACION*/
+                        child: GestureDetector(
+                          /*onTap: () {
+                            // Acciones a realizar cuando se toca el elemento
+                          },*/
+                          child: ExpansionTile(
+                            backgroundColor: Colors.grey,
+                            title: Text(data['Categoria']),
+                            leading: Icon(Icons.accessibility_outlined),
+                            children: [
+                              Text('Valor: ${data['Valor']}'),
+                            ],
+                          ),
                         ),
                       );
                     },
