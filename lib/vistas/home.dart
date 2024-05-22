@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
+import 'package:getfunds/componentes/modal_Home.dart';
 import 'package:getfunds/conexion.dart';
 import 'package:getfunds/registros.dart';
 import 'package:getfunds/vistas/ahorro.dart';
 
 class home extends StatefulWidget { // Make it StatefulWidget
-  const home({super.key});
+
 
   @override
   State<home> createState() => _HomeState(); // Create a State class
 }
 
 class _HomeState extends State<home> { // State class for Home
-
+  Modal_Home modal = Modal_Home();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +54,9 @@ class _HomeState extends State<home> { // State class for Home
                         backgroundColor: colorPrincipal,
                         shape: CircleBorder()
                     ),
-                    onPressed: (){},
+                    onPressed: (){
+                      modal.mainBottomSheet(context);
+                    },
                     child: Icon(
                       Icons.add,
                       color: Colors.white,
