@@ -7,6 +7,7 @@ import 'package:getfunds/formularios/usuarios.dart';
 import 'package:getfunds/vistas/ahorro.dart';
 import 'package:getfunds/vistas/home.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
 
@@ -229,6 +230,12 @@ class _LoginState extends State<Login> {
                                   print('Correo Incorrecto');
                                 }else if(dato==1){
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>Ahorro()));
+                                  Fluttertoast.showToast(
+                                      msg: 'Bienvenido',
+                                    backgroundColor: colorPrincipal,
+                                    textColor: Colors.white,
+                                    fontSize: 20
+                                  );
                                 }else{
                                   print('error');
                                 }
@@ -263,9 +270,12 @@ class _LoginState extends State<Login> {
                               ),
                             )
                         ),
-                        IconButton(
+                        FloatingActionButton(
+                          backgroundColor: colorPrincipal,
                             onPressed: _startAuth,
-                            icon: Icon(Icons.fingerprint)
+                            child: Icon(Icons.fingerprint,
+                              color: Colors.white,
+                            )
                         )
                       ],
                     )
