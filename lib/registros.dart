@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:getfunds/colores.dart';
+import 'package:intl/intl.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -40,19 +42,71 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       Map<String, dynamic> data = snapshot.data!.docs[index].data() as Map<String, dynamic>;
-                      return Container(
-                        /*DECORACION*/
-                        child: GestureDetector(
-                          /*onTap: () {
-                            // Acciones a realizar cuando se toca el elemento
-                          },*/
-                          child: ExpansionTile(
-                            backgroundColor: Colors.grey,
-                            title: Text(data['Categoria']),
-                            leading: Icon(Icons.accessibility_outlined),
-                            children: [
-                              Text('Valor: ${data['Valor']}'),
-                            ],
+                      DateTime fecha = (data['Fecha'] as Timestamp).toDate();
+                      String formattedDate = DateFormat('yyyy-MM-dd').format(fecha);
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black12,
+                                    spreadRadius: 1,
+                                    blurRadius: 3,
+                                    offset: Offset(0,2)
+                                )
+                              ]
+                          ),
+                          child: GestureDetector(
+                            /*onTap: () {
+                              // Acciones a realizar cuando se toca el elemento
+                            },*/
+                            child: ExpansionTile(
+                              backgroundColor: Colors.transparent,
+
+                              title: Text(formattedDate),
+                              leading: Icon(Icons.calendar_month,
+                              color: colorPrincipal,),
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    width:MediaQuery.of(context).size.width*1,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 10,),
+                                          child: Text('Valor: ${data['Valor']}',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 10,),
+
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 10, bottom: 5),
+                                          child: Text('Tipo: ${data['Tipo']}',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );
