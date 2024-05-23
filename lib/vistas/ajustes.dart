@@ -11,209 +11,338 @@ class Ajustes extends StatefulWidget {
 }
 
 class _AjustesState extends State<Ajustes> {
-  int _indexSeleccionado = 0;
 
-  void _indexSeleccion(int index){
-    setState(() {
-      _indexSeleccionado = index;
-    });
-
-    switch(index){
-      case 0:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>home()));
-        break;
-      case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Ahorro()));
-        break;
-      case 2:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Estadisticas()));
-        break;
-      case 3:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Ajustes()));
-        break;
-
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                /*Inicio Barra con nombre de Sección y Botón de Agregar*/
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Text("Ahorro",
-                        style: TextStyle(
-                            fontFamily: 'Jost',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25
-                        ),
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: colorPrincipal,
-                          shape: CircleBorder()
-                      ),
-                      onPressed: (){},
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                    )
-                  ],
-                ),
-
-                /*Imagen de Cerdito*/
-                Transform.rotate(
-                  angle: 226,
-                  child: Container(
-                    height: 300,
-                    width: 300,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('img/ahorro.png')
-                        )
-                    ),
-                  ),
-                ),
-
-                /*Contenedores de Ahorro*/
-                /*ListView(
-                  children: [
-                    ListTile(
-                      title: Text("Viajes"),
-                      subtitle: Text('300000'),
-                      leading: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('img/cartera.png')
-                          )
-                        ),
-                      ),
-                    )
-                  ],
-                ),*/
-
-                /*Barra de Navegación*/
-                /*Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                          color: Color.fromRGBO(2,114,33,1),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            FilledButton(
-                              style: FilledButton.styleFrom(
-                                backgroundColor: Colors.transparent
-                              ),
-                                onPressed: (){},
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage('img/hogarGetFunds.png',)
-                                    )
-                                  ),
-                                )
-                            ),
-                            FilledButton(
-                                style: FilledButton.styleFrom(
-                                    backgroundColor: Colors.transparent
-                                ),
-                                onPressed: (){},
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage('img/carteraGetFunds.png')
-                                      )
-                                  ),
-                                )
-                            ),
-                            FilledButton(
-                                style: FilledButton.styleFrom(
-                                    backgroundColor: Colors.transparent
-                                ),
-                                onPressed: (){},
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage('img/estadisticasGetFunds.png')
-                                      )
-                                  ),
-                                )
-                            ),
-                            FilledButton(
-                                style: FilledButton.styleFrom(
-                                    backgroundColor: Colors.transparent
-                                ),
-                                onPressed: (){},
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage('img/ajustesGetFunds.png')
-                                      )
-                                  ),
-                                )
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-
-                  ],
-                )*/
-              ],
-            ),
+      appBar: AppBar(
+        title: Text('Ajustes',
+          style: TextStyle(
+            fontFamily: 'Jost',
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items:const[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Inicio',
-              backgroundColor: colorPrincipal
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.access_alarm_rounded),
-              label: 'Ahorro',
-              backgroundColor: colorPrincipal
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.accessibility_outlined),
-              label: 'Estadisticas',
-              backgroundColor: Colors.red
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.ad_units),
-            label: 'Ajustes',
-            backgroundColor: Colors.purple
+        leading: Builder(
+          builder: (context){
+            return IconButton(
+                onPressed: (){
+                  Scaffold.of(context).openDrawer();
+                },
+                icon: Icon(Icons.menu)
+            );
+          },
+        ),
+        actions: [
+          IconButton(
+              onPressed: (){},
+              icon: Image.asset('img/GetFundsLogoPequeño.png')
           )
         ],
-        type: BottomNavigationBarType.shifting,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.transparent
+              ),
+              child: Text('Menú',
+                style: TextStyle(
+                  fontFamily: 'Jost',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Container(
+                height: 25,
+                width: 25,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('img/hogar_Menu.png')
+                  ),
+                ),
+              ),
+              title: Text('Inicio',
+                style: TextStyle(
+                  color: colorPrincipal,
+                  fontFamily: 'Jost',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15
+                ),
+              ),
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context)=>home())
+                );
+              },
+            ),
+            ListTile(
+              leading: Container(
+                height: 25,
+                width: 25,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('img/hucha_menu.png')
+                  ),
+                ),
+              ),
+              title: Text('Ahorro',
+                style: TextStyle(
+                    color: colorPrincipal,
+                    fontFamily: 'Jost',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15
+                ),
+              ),
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context)=>Ahorro())
+                );
+              },
+            ),
+            ListTile(
+              leading: Container(
+                height: 25,
+                width: 25,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('img/estadisticas_menu.png')
+                  ),
+                ),
+              ),
+              title: Text('Estadisticas',
+                style: TextStyle(
+                    color: colorPrincipal,
+                    fontFamily: 'Jost',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15
+                ),
+              ),
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context)=>Estadisticas())
+                );
+              },
+            )
+          ],
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black12,
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset: Offset(0,2)
+                    )
+                  ],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15)
+              ),
+              child: FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20)
+                ),
+                onPressed: (){},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('img/circulo-de-usuario.png')
+                            )
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Container(
+                          child: Text('Perfil',
+                            style: TextStyle(
+                              color: colorGris,
+                              fontFamily: 'Jost',
+                              fontSize: 20
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: 20,
+                      width: 20,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('img/angulo-hacia-abajo.png')
+                          )
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black12,
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset: Offset(0,2)
+                    )
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15)
+              ),
+              child: FilledButton(
+                style: FilledButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20)
+                ),
+                onPressed: (){},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(width: 10),
+                        Container(
+                          child: Text('Terminos y Condiciones',
+                            style: TextStyle(
+                                color: colorGris,
+                                fontFamily: 'Jost',
+                                fontSize: 20
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: 20,
+                      width: 20,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('img/angulo-hacia-abajo.png')
+                          )
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
+            Container(
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black12,
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset: Offset(0,2)
+                    )
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15)
+              ),
+              child: FilledButton(
+                style: FilledButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20)
+                ),
+                onPressed: (){},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(width: 10),
+                        Container(
+                          child: Text('Ayuda',
+                            style: TextStyle(
+                                color: colorGris,
+                                fontFamily: 'Jost',
+                                fontSize: 20
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: 20,
+                      width: 20,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('img/interrogatorio.png')
+                          )
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
+            Container(
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black12,
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset: Offset(0,2)
+                    )
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15)
+              ),
+              child: FilledButton(
+                style: FilledButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20)
+                ),
+                onPressed: (){},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(width: 10),
+                        Container(
+                          child: Text('Cerrar Sesión',
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontFamily: 'Jost',
+                                fontSize: 20
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: 20,
+                      width: 20,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('img/salir.png')
+                          )
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
