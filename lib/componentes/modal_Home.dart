@@ -16,8 +16,9 @@ class Modal_Home{
         context: context,
         builder: (BuildContext context){
           return Container(
+            margin: EdgeInsets.only(top: 50),
             padding: EdgeInsets.all(20),
-            height: 500,
+            height: 350,
             width: MediaQuery.of(context).size.width*1,
             child: Column(
               children: [
@@ -27,7 +28,21 @@ class Modal_Home{
                     children: [
                       TextFormField(
                         decoration: InputDecoration(
-                            labelText: 'Ingresa la Categoria'),
+                            labelText: 'Ingresa la Categoria',
+                            labelStyle: TextStyle(
+
+                            ),
+                            prefixIcon: Icon(Icons.category,
+                              color: colorSecundario,),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: colorSecundario)
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: colorSecundario)
+                            )
+                        ),
                         validator: (value){
                           if(value==null || value.isEmpty)
                             return 'Ingrese el Documento.';
@@ -42,7 +57,21 @@ class Modal_Home{
                       SizedBox(height: 10,),
                       TextFormField(
                         decoration: InputDecoration(
-                            labelText: 'Ingresa el Tipo'),
+                            labelText: 'Ingresa el Tipo',
+                            labelStyle: TextStyle(
+
+                            ),
+                            prefixIcon: Icon(Icons.merge_type,
+                              color: colorSecundario,),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: colorSecundario)
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(color: colorSecundario)
+                            )
+                        ),
                         validator: (value){
                           if(value==null || value.isEmpty)
                             return 'Ingrese el Documento.';
@@ -61,16 +90,16 @@ class Modal_Home{
                         decoration: InputDecoration(
                             labelText: 'Ingresa el Valor',
                           labelStyle: TextStyle(
-                            color: colorSecundario,
+
                           ),
                           prefixIcon: Icon(Icons.monetization_on,
                           color: colorSecundario,),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(20),
                             borderSide: BorderSide(color: colorSecundario)
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(20),
                             borderSide: BorderSide(color: colorSecundario)
                           )
                         ),
@@ -96,7 +125,13 @@ class Modal_Home{
                                   tipo: _Tipo,
                                   valor: _Valor);
                           }
-                        }, child: Text('Registrar')),
+                        }, style: ElevatedButton.styleFrom(
+                          backgroundColor: colorPrincipal,
+                        ),
+                            child: Text('Registrar',
+                            style: TextStyle(
+                              color: Colors.white
+                            ),)),
                       )
                     ],
                   ),
