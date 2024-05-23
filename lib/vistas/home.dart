@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
 import 'package:getfunds/componentes/modal_Home.dart';
@@ -12,7 +13,59 @@ class home extends StatefulWidget { // Make it StatefulWidget
   State<home> createState() => _HomeState(); // Create a State class
 }
 
-class _HomeState extends State<home> { // State class for Home
+class _HomeState extends State<home> {
+  int totalIngresos = 0;
+  int totalEgresos = 0;
+  int balance = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    sumarIngresos();
+    sumarEgresos();
+  }
+
+  Future<void> sumarIngresos() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Registros').where('Tipo', isEqualTo: 'Ingreso').get();
+
+    int sumaIngresos = 0;
+
+    querySnapshot.docs.forEach((document) {
+      if (document.data() != null) {
+        dynamic data = document.data();
+        if (data['Valor'] != null) {
+          int? valorIngreso = data['Valor'] as int?;
+          if (valorIngreso != null) {
+            sumaIngresos += valorIngreso;
+          }
+        }
+      }
+    });
+
+    totalIngresos = sumaIngresos;
+  }
+
+  Future<void> sumarEgresos() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Registros').where('Tipo', isEqualTo: 'Egreso').get();
+
+    int sumaEgresos = 0;
+
+    querySnapshot.docs.forEach((document) {
+      if (document.data() != null) {
+        dynamic data = document.data();
+        if (data['Valor'] != null) {
+          int? valorIngreso = data['Valor'] as int?;
+          if (valorIngreso != null) {
+            sumaEgresos += valorIngreso;
+          }
+        }
+      }
+    });
+
+    totalEgresos = sumaEgresos;
+  }
+
+
   Modal_Home modal = Modal_Home();
   @override
   Widget build(BuildContext context) {
@@ -122,7 +175,7 @@ class _HomeState extends State<home> { // State class for Home
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 15,left: 75),
-                          child: Text('60.000',
+                          child: Text('$totalIngresos',
                             style: TextStyle(
                                 color: colorPrincipal,
                                 fontWeight: FontWeight.bold,
@@ -158,7 +211,7 @@ class _HomeState extends State<home> { // State class for Home
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 15,left: 82),
-                          child: Text('60.000',
+                          child: Text('$totalEgresos',
                             style: TextStyle(
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold,
@@ -193,7 +246,7 @@ class _HomeState extends State<home> { // State class for Home
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 15,left: 82),
-                          child: Text('60.000',
+                          child: Text('${totalIngresos - totalEgresos}',
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.bold,
