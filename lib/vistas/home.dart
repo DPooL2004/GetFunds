@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
 import 'package:getfunds/componentes/modal_Home.dart';
-import 'package:getfunds/conexion.dart';
 import 'package:getfunds/registros.dart';
 import 'package:getfunds/vistas/ahorro.dart';
 
@@ -66,7 +65,7 @@ class _HomeState extends State<home> {
   }
 
 
-  Modal_Home modal = Modal_Home();
+  Modal_Home modalHome = Modal_Home();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,7 +107,7 @@ class _HomeState extends State<home> {
                         shape: CircleBorder()
                     ),
                     onPressed: (){
-                      modal.mainBottomSheet(context);
+                      modalHome.mainBottomSheet(context);
                     },
                     child: Icon(
                       Icons.add,
@@ -151,30 +150,35 @@ class _HomeState extends State<home> {
                     ),),
                   ),
                   Container(
+                    margin: EdgeInsets.only(top: 15),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 35),
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('img/ingresos.png')
-                            )
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage('img/ingresos.png')
+                                    )
+                                ),
+                              ),
+                              Container(
+                                child: Text('Ingresos',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      fontFamily: 'Jost'
+                                  ),),
+                              ),
+                            ],
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 10),
-                          child: Text('Ingresos',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                fontFamily: 'Jost'
-                            ),),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 15,left: 75),
                           child: Text('$totalIngresos',
                             style: TextStyle(
                                 color: colorPrincipal,
@@ -188,29 +192,34 @@ class _HomeState extends State<home> {
                   ),
                   Container(
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 35),
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('img/egresos.png')
-                              )
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage('img/egresos.png')
+                                    )
+                                ),
+                              ),
+                              Container(
+                                child: Text('Egresos',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      fontFamily: 'Jost'
+                                  ),),
+                              ),
+                            ],
                           ),
                         ),
+
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 10),
-                          child: Text('Egresos',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                fontFamily: 'Jost'
-                            ),),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 15,left: 82),
                           child: Text('$totalEgresos',
                             style: TextStyle(
                                 color: Colors.red,
@@ -224,28 +233,34 @@ class _HomeState extends State<home> {
                   ),
                   Container(
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 35),
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('img/balance.png')
-                              )
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage('img/balance.png')
+                                    )
+                                ),
+                              ),
+                              Container(
+                                child: Text('Balance',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16
+                                  ),),
+                              ),
+                            ],
                           ),
                         ),
+
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 12),
-                          child: Text('Balance',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16
-                            ),),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 15,left: 82),
+
                           child: Text('${totalIngresos - totalEgresos}',
                             style: TextStyle(
                                 color: Colors.grey,
@@ -278,7 +293,7 @@ class _HomeState extends State<home> {
             /*Se trae desde BD los registros en registros.dart*/
             Container(
               height: 300,
-              child: MyHomePage(),
+              child: RegistrosHome(),
             ),
             Container(
               padding: EdgeInsets.only(top: 0, bottom: 10, left: 20, right: 20),
