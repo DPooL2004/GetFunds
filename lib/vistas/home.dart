@@ -66,7 +66,7 @@ class _HomeState extends State<home> {
   }
 
 
-  Modal_Home modal = Modal_Home();
+  Modal_Home modalHome = Modal_Home();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,7 +108,7 @@ class _HomeState extends State<home> {
                         shape: CircleBorder()
                     ),
                     onPressed: (){
-                      modal.mainBottomSheet(context);
+                      modalHome.mainBottomSheet(context);
                     },
                     child: Icon(
                       Icons.add,
@@ -151,10 +151,11 @@ class _HomeState extends State<home> {
                     ),),
                   ),
                   Container(
+                    margin: EdgeInsets.only(top: 15),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 35),
                           width: 20,
                           height: 20,
                           decoration: BoxDecoration(
@@ -164,7 +165,6 @@ class _HomeState extends State<home> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 10),
                           child: Text('Ingresos',
                             style: TextStyle(
                                 color: Colors.black,
@@ -174,7 +174,7 @@ class _HomeState extends State<home> {
                             ),),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 75),
+
                           child: Text('$totalIngresos',
                             style: TextStyle(
                                 color: colorPrincipal,
@@ -188,9 +188,9 @@ class _HomeState extends State<home> {
                   ),
                   Container(
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 35),
                           width: 20,
                           height: 20,
                           decoration: BoxDecoration(
@@ -200,7 +200,7 @@ class _HomeState extends State<home> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 10),
+
                           child: Text('Egresos',
                             style: TextStyle(
                                 color: Colors.black,
@@ -210,7 +210,6 @@ class _HomeState extends State<home> {
                             ),),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 82),
                           child: Text('$totalEgresos',
                             style: TextStyle(
                                 color: Colors.red,
@@ -224,9 +223,10 @@ class _HomeState extends State<home> {
                   ),
                   Container(
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 35),
+
                           width: 20,
                           height: 20,
                           decoration: BoxDecoration(
@@ -236,7 +236,7 @@ class _HomeState extends State<home> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 12),
+
                           child: Text('Balance',
                             style: TextStyle(
                                 color: Colors.black,
@@ -245,7 +245,7 @@ class _HomeState extends State<home> {
                             ),),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 15,left: 82),
+
                           child: Text('${totalIngresos - totalEgresos}',
                             style: TextStyle(
                                 color: Colors.grey,
