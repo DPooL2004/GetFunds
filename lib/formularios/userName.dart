@@ -6,6 +6,7 @@ import 'package:getfunds/formularios/login.dart';
 import 'dart:io' as io;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:getfunds/vistas/home.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
@@ -19,8 +20,6 @@ class UserName extends StatefulWidget {
 class _UserNameState extends State<UserName> {
   final _formKey = GlobalKey<FormState>();
 
-  final String defaultImg = "img/avatares/default.png";
-  late io.File? imagen = io.File('img/avatares/default.png');
   late String _nombre;
 
   String? _selectedImagePath;
@@ -33,27 +32,6 @@ class _UserNameState extends State<UserName> {
     'img/avatares/mujer.png',
     'img/avatares/mujer3.png',
   ];
-
-  Future<void> _uploadImage(String imagePath) async {
-    try {
-      final byteData = await rootBundle.load(imagePath);
-      final tempDir = await getTemporaryDirectory();
-      final file = io.File('${tempDir.path}/${basename(imagePath)}');
-      await file.writeAsBytes(byteData.buffer.asUint8List());
-
-      final ref = FirebaseStorage.instance.ref().child('Avatares/${basename(imagePath)}');
-      final uploadTask = ref.putFile(file);
-
-      final snapshot = await uploadTask.whenComplete(() {});
-      final downloadUrl = await snapshot.ref.getDownloadURL();
-
-      await FirebaseFirestore.instance.collection('usuarios').add({'Avatar': downloadUrl, 'Nombre': _nombre});
-
-      print("Imagen subida y URL guardada en Firestore: $downloadUrl");
-    } catch (e) {
-      print("Error al subir la imagen: $e");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,14 +160,21 @@ class _UserNameState extends State<UserName> {
                               if(_formKey.currentState!.validate()){
                                 _formKey.currentState!.save();
                                 InsertarUsuarios insertarusuarios = InsertarUsuarios();
-
-                                await insertarusuarios.saveDatos(
+                                try {
+                                  await insertarusuarios.saveDatos(
                                     imagen: io.File(_selectedImagePath!),
-                                    userName: _nombre
-                                );
+                                    userName: _nombre,
+                                  );
+
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => home()));
+                                } catch (error){
+                                  print('$error');
+                                  print('$_selectedImagePath');
+                                }
                               }
                             },
-                            child: Text("Registrarse",
+                            child: Text("Continuar",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
