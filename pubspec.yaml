@@ -50,13 +50,14 @@ flutter_launcher_icons:
   cupertino_icons: ^1.0.2
   firebase_auth:
   firebase_core: ^2.27.0
-  cloud_firestore: ^4.17.3
   flutter_launcher_icons:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   path:
+  path_provider: ^2.0.11
+  image_picker: ^0.8.4+4
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -79,6 +80,13 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
       - img/
+      - img/avatares/Avat_hombre1.png
+      - img/avatares/Avatar_hombre2.png
+      - img/avatares/Avat_hombre3.png
+      - img/avatares/Avatar_mujer1.png
+      - img/avatares/mujer.png
+      - img/avatares/mujer3.png
+      - img/avatares/default.png'
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
