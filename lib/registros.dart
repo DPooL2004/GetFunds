@@ -3,12 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:getfunds/colores.dart';
 import 'package:intl/intl.dart';
 
-class MyHomePage extends StatefulWidget {
+class RegistrosHome extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _RegistrosHomeState createState() => _RegistrosHomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _RegistrosHomeState extends State<RegistrosHome> {
   late Future<QuerySnapshot> _futureData;
 
 

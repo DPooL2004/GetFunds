@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
 import 'package:getfunds/componentes/modal_Home.dart';
-import 'package:getfunds/conexion.dart';
 import 'package:getfunds/registros.dart';
 import 'package:getfunds/vistas/ahorro.dart';
 
@@ -156,25 +155,30 @@ class _HomeState extends State<home> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('img/ingresos.png')
-                            )
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage('img/ingresos.png')
+                                    )
+                                ),
+                              ),
+                              Container(
+                                child: Text('Ingresos',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      fontFamily: 'Jost'
+                                  ),),
+                              ),
+                            ],
                           ),
                         ),
                         Container(
-                          child: Text('Ingresos',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                fontFamily: 'Jost'
-                            ),),
-                        ),
-                        Container(
-
                           child: Text('$totalIngresos',
                             style: TextStyle(
                                 color: colorPrincipal,
@@ -191,24 +195,30 @@ class _HomeState extends State<home> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('img/egresos.png')
-                              )
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage('img/egresos.png')
+                                    )
+                                ),
+                              ),
+                              Container(
+                                child: Text('Egresos',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      fontFamily: 'Jost'
+                                  ),),
+                              ),
+                            ],
                           ),
                         ),
-                        Container(
 
-                          child: Text('Egresos',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                fontFamily: 'Jost'
-                            ),),
-                        ),
                         Container(
                           child: Text('$totalEgresos',
                             style: TextStyle(
@@ -226,24 +236,29 @@ class _HomeState extends State<home> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage('img/balance.png')
-                              )
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage('img/balance.png')
+                                    )
+                                ),
+                              ),
+                              Container(
+                                child: Text('Balance',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16
+                                  ),),
+                              ),
+                            ],
                           ),
                         ),
-                        Container(
 
-                          child: Text('Balance',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16
-                            ),),
-                        ),
                         Container(
 
                           child: Text('${totalIngresos - totalEgresos}',
@@ -278,7 +293,7 @@ class _HomeState extends State<home> {
             /*Se trae desde BD los registros en registros.dart*/
             Container(
               height: 300,
-              child: MyHomePage(),
+              child: RegistrosHome(),
             ),
             Container(
               padding: EdgeInsets.only(top: 0, bottom: 10, left: 20, right: 20),
