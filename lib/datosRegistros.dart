@@ -6,19 +6,15 @@ class InsertarUsuarios{
    final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future <void> saveDatos({
-      required io.File imagen,
-      required String userName
+      required String imagen,
+      required String userName,
+      required String correo
   }) async {
-    try{
-      FirebaseStorage storage = FirebaseStorage.instance;
-      Reference ref=storage.ref().child('Avatares/${DateTime.now().toString()}');
-      UploadTask uploadTask = ref.putFile(imagen!);
-      TaskSnapshot snapshot = await uploadTask;
-      String img = await snapshot.ref.getDownloadURL();
-
+    try {
       FirebaseFirestore.instance.collection('usuarios').add({
         'Nombre': userName,
-        'Avatar': imagen
+        'Avatar': imagen,
+        'Correo': correo
       });
     } catch (error){
       throw error;

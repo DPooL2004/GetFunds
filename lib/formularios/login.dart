@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:getfunds/colores.dart';
 import 'package:getfunds/formularios/recuperar_Contrase%C3%B1a.dart';
 import 'package:getfunds/formularios/register.dart';
+import 'package:getfunds/formularios/userName.dart';
 import 'package:getfunds/formularios/usuarios.dart';
-import 'package:getfunds/vistas/ahorro.dart';
 import 'package:getfunds/vistas/home.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -243,7 +243,7 @@ class _LoginState extends State<Login> {
                                     gravity: ToastGravity.BOTTOM_LEFT
                                   );
                                 }else if(dato==1){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>home()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>UserName()));
                                 }else{
                                   print('error');
                                 }

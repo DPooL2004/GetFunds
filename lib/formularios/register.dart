@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
 import 'package:getfunds/formularios/login.dart';
-import 'package:getfunds/formularios/userName.dart';
 import 'package:getfunds/formularios/usuarios.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -200,7 +199,7 @@ class _RegisterState extends State<Register> {
                                 _formKey.currentState!.save();
                                 var dato = await mial.registerUsuario(_emailController, _passwordController);
                                 if(dato==3){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>UserName()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
                                 }else if(dato==1){
                                   Fluttertoast.showToast(
                                       msg: 'Contraseña Débil',
