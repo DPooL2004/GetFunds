@@ -86,7 +86,7 @@ flutter:
       - img/avatares/Avatar_mujer1.png
       - img/avatares/mujer.png
       - img/avatares/mujer3.png
-      - img/avatares/default.png'
+      - img/avatares/default.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
