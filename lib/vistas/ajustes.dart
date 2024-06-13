@@ -1,7 +1,9 @@
+import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
 import 'package:getfunds/vistas/ahorro.dart';
-import 'package:getfunds/vistas/ajustes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:getfunds/vistas/estadisticas.dart';
 import 'package:getfunds/vistas/home.dart';
 
@@ -11,6 +13,57 @@ class Ajustes extends StatefulWidget {
 }
 
 class _AjustesState extends State<Ajustes> {
+  String _correoUsuario = '';
+  String? avatar;
+  String? nombre;
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserEmail();
+    _traerCorreo();
+  }
+
+  Future<void> _getUserEmail() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      if (user != null) {
+        setState(() {
+          _correoUsuario = user.email ?? 'No email available';
+        });
+        _traerCorreo();
+      } else {
+        _correoUsuario = 'No user signed in';
+      }
+    });
+  }
+
+  Future <void> _traerCorreo()async{
+    try{
+      QuerySnapshot<Map<String, dynamic>> correoSnapshot = await FirebaseFirestore.instance.collection('usuarios')
+          .where('Correo', isEqualTo: _correoUsuario)
+          .get();
+
+      if(correoSnapshot.docs.isNotEmpty){
+        var correoFiltrado = correoSnapshot.docs.first.data();
+
+        if(correoFiltrado !=null && correoFiltrado.containsKey('Avatar')){
+          setState(() {
+            avatar = correoFiltrado['Avatar'];
+            nombre = correoFiltrado['Nombre'];// Actualizar la variable avatar con la ruta del avatar
+          });
+          print('Usuario $_correoUsuario');
+          print('Avatar del usuario: $avatar');
+        }else {
+          print('El campo "avatar" no está presente en el documento o el documento es nulo.');
+        }
+      }else {
+        print('No se encontraron usuarios con ese correo.');
+      }
+    }catch (error){
+      print('$error');
+    }
+  }
 
 
   @override
@@ -156,19 +209,20 @@ class _AjustesState extends State<Ajustes> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
-                      children: [
+                      children: <Widget>[
+                        if(avatar != null)
                         Container(
-                          height: 30,
-                          width: 30,
+                          height: 50,
+                          width: 50,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage('img/circulo-de-usuario.png')
+                              image: AssetImage(avatar!),
                             )
                           ),
                         ),
                         SizedBox(width: 10),
                         Container(
-                          child: Text('Perfil',
+                          child: Text('Perfil: $nombre',
                             style: TextStyle(
                               color: colorGris,
                               fontFamily: 'Jost',

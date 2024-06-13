@@ -38,7 +38,6 @@ class _UserNameState extends State<UserName> {
       }
     });
   }
-
   late String _nombre;
 
   String? _selectedImagePath;
