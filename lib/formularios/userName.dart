@@ -16,9 +16,12 @@ class UserName extends StatefulWidget {
 class _UserNameState extends State<UserName> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _correoUsuario;
+  late TextEditingController _uidUsuario;
 
+  @override
   void initState() {
     super.initState();
+    _uidUsuario = TextEditingController();
     _correoUsuario = TextEditingController();
     _getUserEmail();
   }
@@ -27,9 +30,11 @@ class _UserNameState extends State<UserName> {
     User? user = FirebaseAuth.instance.currentUser;
     setState(() {
       if (user != null) {
+        _uidUsuario.text = user.uid;
         _correoUsuario.text = user.email ?? 'No email available';
       } else {
         _correoUsuario.text = 'No user signed in';
+        _uidUsuario.text = 'No user signed in';
       }
     });
   }
@@ -179,6 +184,7 @@ class _UserNameState extends State<UserName> {
                               opacity: 0.0,
                               child: Container(
                                 width: MediaQuery.of(context).size.width*1,
+                                height: 10,
                                 child: TextFormField(
                                   controller: _correoUsuario,
                                   cursorColor: colorSecundario,
@@ -207,6 +213,39 @@ class _UserNameState extends State<UserName> {
                                   },
                                 ),
                               ),
+                            ),Opacity(
+                              opacity: 0.0,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width*1,
+                                height: 10,
+                                child: TextFormField(
+                                  controller: _uidUsuario,
+                                  cursorColor: colorSecundario,
+                                  decoration: InputDecoration(
+                                      labelText: 'Correo',
+                                      labelStyle: TextStyle(color: colorSecundario),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(color: colorSecundario),
+                                          borderRadius: BorderRadius.circular(50)
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:BorderRadius.circular(50),
+                                          borderSide: BorderSide(color: colorSecundario)
+                                      ),
+                                      enabled: false
+                                  ),
+                                  validator: (value){
+                                    if(value==null||value.isEmpty)
+                                      return 'Ingrese un nombre de usuario';
+                                    else{
+                                      return null;
+                                    }
+                                  },
+                                  onSaved: (value){
+                                    _uidUsuario;
+                                  },
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -230,9 +269,10 @@ class _UserNameState extends State<UserName> {
                                     await _uploadImage(_selectedImagePath!);
                                     try {
                                       await insertarusuarios.saveDatos(
-                                        imagen: _selectedImagePath!,
                                         userName: _nombre,
-                                        correo: _correoUsuario.text
+                                        imagen: _selectedImagePath!,
+                                        correo: _correoUsuario.text,
+                                        uid: _uidUsuario.text,
                                       );
 
                                       Navigator.push(context, MaterialPageRoute(

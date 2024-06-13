@@ -1,5 +1,4 @@
 import 'package:firebase_storage/firebase_storage.dart';
-import 'dart:io' as io;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class InsertarUsuarios{
@@ -8,22 +7,19 @@ class InsertarUsuarios{
   Future <void> saveDatos({
       required String imagen,
       required String userName,
-      required String correo
+      required String correo,
+      required String uid
   }) async {
     try {
       FirebaseFirestore.instance.collection('usuarios').add({
         'Nombre': userName,
         'Avatar': imagen,
-        'Correo': correo
+        'Correo': correo,
+        'Uid': uid
       });
     } catch (error){
       throw error;
     }
-    /*}).then((value){
-      print('Enviado');
-    }).catchError((error){
-      print('Datos no guardados');
-    });*/
   }
 }
 
