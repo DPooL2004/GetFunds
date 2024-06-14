@@ -10,6 +10,7 @@ class InsertarDatos{
     required DateTime fecha,
     required String tipo,
     required int valor,
+    required String correo,
   }) async {
     FirebaseStorage storage = FirebaseStorage.instance;
     FirebaseFirestore.instance.collection('Registros').add({
@@ -17,6 +18,7 @@ class InsertarDatos{
       'Fecha':Timestamp.fromDate(fecha),
       'Tipo': tipo,
       'Valor': valor,
+      'Correo': correo,
 
     }).then((value){
       print('Enviado');

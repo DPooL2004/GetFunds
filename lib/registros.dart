@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:getfunds/colores.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrosHome extends StatefulWidget {
   @override
@@ -10,16 +11,32 @@ class RegistrosHome extends StatefulWidget {
 
 class _RegistrosHomeState extends State<RegistrosHome> {
   late Future<QuerySnapshot> _futureData;
+  String _correoUsuario = '';
 
 
   @override
   void initState() {
     super.initState();
+    _getUserEmail();
     _futureData = getData();
   }
 
+  Future<void> _getUserEmail() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      if (user != null) {
+        setState(() {
+          _correoUsuario = user.email ?? 'No email available';
+          getData();
+        });
+      } else {
+        _correoUsuario = 'No user signed in';
+      }
+    });
+  }
+
   Future<QuerySnapshot> getData() async {
-    return FirebaseFirestore.instance.collection('Registros').get();
+    return FirebaseFirestore.instance.collection('Registros').where('Correo', isEqualTo: _correoUsuario).get();
   }
 
   @override
