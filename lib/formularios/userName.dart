@@ -212,7 +212,8 @@ class _UserNameState extends State<UserName> {
                                   },
                                 ),
                               ),
-                            ),Opacity(
+                            ),
+                            Opacity(
                               opacity: 0.0,
                               child: Container(
                                 width: MediaQuery.of(context).size.width*1,

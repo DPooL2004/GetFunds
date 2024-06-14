@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
 import 'package:getfunds/insertar/insertarHome.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Modal_Home extends StatefulWidget {
   @override
@@ -32,6 +33,14 @@ class _ModalContent extends StatefulWidget {
 class __ModalContentState extends State<_ModalContent> {
   final InsertarDatos insertarDatos = InsertarDatos();
   final frm = GlobalKey<FormState>();
+  late TextEditingController _correoUsuario;
+
+  @override
+  void initState() {
+    super.initState();
+    _correoUsuario = TextEditingController();
+    _getUserEmail();
+  }
 
   /* Controladores */
   late String _Categoria;
@@ -67,6 +76,17 @@ class __ModalContentState extends State<_ModalContent> {
         _dateController.text = DateFormat('yyyy-MM-dd').format(picked);
       });
     }
+  }
+
+  Future<void> _getUserEmail() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      if (user != null) {
+        _correoUsuario.text = user.email ?? 'No email available';
+      } else {
+        _correoUsuario.text = 'No user signed in';
+      }
+    });
   }
 
   @override
@@ -223,6 +243,40 @@ class __ModalContentState extends State<_ModalContent> {
                     _Valor = int.parse(value!);
                   },
                 ),
+                Opacity(
+                  opacity: 0.0,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width*1,
+                    height: 10,
+                    child: TextFormField(
+                      controller: _correoUsuario,
+                      cursorColor: colorSecundario,
+                      decoration: InputDecoration(
+                          labelText: 'Correo',
+                          labelStyle: TextStyle(color: colorSecundario),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: colorSecundario),
+                              borderRadius: BorderRadius.circular(50)
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius:BorderRadius.circular(50),
+                              borderSide: BorderSide(color: colorSecundario)
+                          ),
+                          enabled: false
+                      ),
+                      validator: (value){
+                        if(value==null||value.isEmpty)
+                          return 'Ingrese un nombre de usuario';
+                        else{
+                          return null;
+                        }
+                      },
+                      onSaved: (value){
+                        _correoUsuario;
+                      },
+                    ),
+                  ),
+                ),
                 SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -235,6 +289,7 @@ class __ModalContentState extends State<_ModalContent> {
                           tipo: _Tipo,
                           valor: _Valor,
                           fecha: _Fecha,
+                          correo: _correoUsuario.text,
                         );
                       }
                     },
