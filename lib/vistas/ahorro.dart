@@ -1,12 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
 import 'package:getfunds/componentes/modal_Ahorro.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:getfunds/vistas/ajustes.dart';
 import 'package:getfunds/vistas/estadisticas.dart';
 import 'package:getfunds/vistas/home.dart';
 
-class Ahorro extends StatelessWidget {
+class Ahorro extends StatefulWidget {
+  @override
+  State<Ahorro> createState() => _AhorroState();
+}
+
+class _AhorroState extends State<Ahorro> {
   Modal_Ahorro modal = Modal_Ahorro();
+  late Future<QuerySnapshot> _futureData;
+  String _correoUsuario = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserEmail();
+    _futureData = getData();
+  }
+
+  Future<void> _getUserEmail() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      if (user != null) {
+        setState(() {
+          _correoUsuario = user.email ?? 'No email available';
+          getData();
+        });
+      } else {
+        _correoUsuario = 'No user signed in';
+      }
+    });
+  }
+
+  Future<QuerySnapshot> getData() async {
+    return FirebaseFirestore.instance.collection('Ahorro').where('Correo', isEqualTo: _correoUsuario).get();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +82,7 @@ class Ahorro extends StatelessWidget {
                     ],
                   ),
                 ),
-        
+
                 /*Imagen de Cerdito*/
                 Padding(
                   padding: EdgeInsets.only(top: 0, bottom: 10, left: 20, right: 20),
@@ -65,46 +99,67 @@ class Ahorro extends StatelessWidget {
                     ),
                   ),
                 ),
-        
+
                 /*Contenedores de Ahorro*/
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 0, bottom: 10, left: 20, right: 20),
-                    child: ListView(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                spreadRadius: 1,
-                                blurRadius: 3,
-                                offset: Offset(0,2)
-                              )
-                            ]
-                          ),
-                          child: ListTile(
-                            trailing: Icon(Icons.keyboard_arrow_down_rounded),
-                            title: Text("Viajes"),
-                            subtitle: Text('300000'),
-                            leading: Container(
-                              height: 20,
-                              width: 20,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('img/cartera.png')
-                                )
-                              ),
+                FutureBuilder(
+                  future: _futureData,
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else
+                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                      return Center(child: Text('No data found'));
+                    } else {
+                      return Container(
+                        child: Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+                            child: ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              Map<String, dynamic> data = snapshot.data!
+                                  .docs[index].data() as Map<String, dynamic>;
+                                return Container(
+                                  margin: EdgeInsets.only(top: 10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black12,
+                                            spreadRadius: 1,
+                                            blurRadius: 3,
+                                            offset: Offset(0, 2)
+                                        )
+                                      ]
+                                  ),
+                                  child: ListTile(
+                                    trailing: Icon(
+                                        Icons.keyboard_arrow_down_rounded),
+                                    title: Text('${data['Nombre']}'),
+                                    subtitle: Text('${data['Monto_Mensual']}'),
+                                    leading: Container(
+                                      height: 20,
+                                      width: 20,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  'img/cartera.png')
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  ),
+                        ),
+                      );
+                    }
+                  }
                 ),
-        
                 /*Barra de Navegación*/
                 Container(
                   padding: EdgeInsets.only(top: 0, bottom: 10, left: 20, right: 20),
