@@ -32,6 +32,7 @@ dependencies:
   fluttertoast:
   flutter:
     sdk: flutter
+  url_launcher: ^6.1.5
   firebase_storage:
   animated_splash_screen:
   lottie:
