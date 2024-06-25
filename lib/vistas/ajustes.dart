@@ -2,10 +2,13 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
+import 'package:getfunds/vistas/CerrarSesion.dart';
 import 'package:getfunds/vistas/ahorro.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:getfunds/vistas/ayuda.dart';
 import 'package:getfunds/vistas/estadisticas.dart';
 import 'package:getfunds/vistas/home.dart';
+import 'package:getfunds/vistas/terminosyCondiciones.dart';
 
 class Ajustes extends StatefulWidget {
   @override
@@ -264,7 +267,9 @@ class _AjustesState extends State<Ajustes> {
                     backgroundColor: Colors.transparent,
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20)
                 ),
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>terminosYCondiciones()));
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -314,7 +319,9 @@ class _AjustesState extends State<Ajustes> {
                     backgroundColor: Colors.transparent,
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20)
                 ),
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Ayuda()));
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -364,7 +371,9 @@ class _AjustesState extends State<Ajustes> {
                     backgroundColor: Colors.transparent,
                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20)
                 ),
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>CerrarSesion()));
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

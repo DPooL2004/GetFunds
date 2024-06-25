@@ -100,6 +100,7 @@ class _RegisterState extends State<Register> {
                           Container(
                             width: MediaQuery.of(context).size.width*1,
                             child: TextFormField(
+                              obscureText: true,
                               controller: _passwordController2,
                               cursorColor: colorSecundario,
                               decoration: InputDecoration(
@@ -132,6 +133,7 @@ class _RegisterState extends State<Register> {
                           Container(
                             width: MediaQuery.of(context).size.width*1,
                             child: TextFormField(
+                              obscureText: true,
                               controller: _confirmPassword,
                               cursorColor: colorSecundario,
                               decoration: InputDecoration(

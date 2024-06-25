@@ -156,6 +156,7 @@ class _LoginState extends State<Login> {
                           Container(
                             width: MediaQuery.of(context).size.width*1,
                             child: TextFormField(
+                              obscureText: true,
                               cursorColor: colorSecundario,
                               decoration: InputDecoration(
                                 labelText: 'Contraseña',
