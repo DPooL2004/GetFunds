@@ -5,6 +5,7 @@ import 'package:getfunds/componentes/modal_Home.dart';
 import 'package:getfunds/registros.dart';
 import 'package:getfunds/vistas/ahorro.dart';
 import 'package:getfunds/vistas/ajustes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class home extends StatefulWidget { // Make it StatefulWidget
 
@@ -17,12 +18,34 @@ class _HomeState extends State<home> {
   int totalIngresos = 0;
   int totalEgresos = 0;
   int balance = 0;
+  late Future<QuerySnapshot> _futureData;
+  String _correoUsuario = '';
 
   @override
   void initState() {
     super.initState();
     sumarIngresos();
     sumarEgresos();
+    _getUserEmail();
+  }
+
+  Future<void> _getUserEmail() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      if (user != null) {
+        _correoUsuario = user.email ?? 'No email available';
+        _futureData = getData(); // Load data after getting the email
+      } else {
+        _correoUsuario = 'No user signed in';
+      }
+    });
+  }
+
+  Future<QuerySnapshot> getData() async {
+    return FirebaseFirestore.instance
+        .collection('Registros')
+        .where('Correo', isEqualTo: _correoUsuario)
+        .get();
   }
 
   Future<void> _obtenerValor() async {
@@ -40,7 +63,7 @@ class _HomeState extends State<home> {
 
 
   Future<void> sumarIngresos() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Registros').where('Tipo', isEqualTo: 'Ingreso').get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Registros').where('Tipo', isEqualTo: 'Ingreso').where('Correo', isEqualTo: _correoUsuario).get();
 
     int sumaIngresos = 0;
 
@@ -60,7 +83,7 @@ class _HomeState extends State<home> {
   }
 
   Future<void> sumarEgresos() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Registros').where('Tipo', isEqualTo: 'Egreso').get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Registros').where('Tipo', isEqualTo: 'Egreso').where('Correo', isEqualTo: _correoUsuario).get();
 
     int sumaEgresos = 0;
 
@@ -144,9 +167,10 @@ class _HomeState extends State<home> {
               child: Column(
                 children: [
                   Container(
+                    margin: EdgeInsets.only(top: 20),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Saldo Total',
+                      child: Text('Resumen',
                       style: TextStyle(
                         color: Color.fromRGBO(87, 87, 87, 1),
                         fontWeight: FontWeight.bold,
@@ -154,15 +178,6 @@ class _HomeState extends State<home> {
                         fontFamily: 'Jost'
                       ),),
                     ),
-                  ),
-                  Container(
-                    child: Text('150.000',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                        fontFamily: 'Jost'
-                    ),),
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 15),
@@ -173,6 +188,7 @@ class _HomeState extends State<home> {
                           child: Row(
                             children: [
                               Container(
+                                margin: EdgeInsets.only(left: 5),
                                 width: 20,
                                 height: 20,
                                 decoration: BoxDecoration(
