@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
 import 'package:getfunds/vistas/ahorro.dart';
 import 'package:getfunds/vistas/ajustes.dart';
-import 'package:getfunds/vistas/estadisticas.dart';
 import 'package:getfunds/vistas/home.dart';
 
 class Estadisticas extends StatefulWidget {
@@ -11,29 +10,6 @@ class Estadisticas extends StatefulWidget {
 }
 
 class _EstadisticasState extends State<Estadisticas> {
-  int _indexSeleccionado = 0;
-
-  void _indexSeleccion(int index){
-    setState(() {
-      _indexSeleccionado = index;
-    });
-
-    switch(index){
-      case 0:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>home()));
-        break;
-      case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Ahorro()));
-        break;
-      case 2:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Estadisticas()));
-        break;
-      case 3:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Ajustes()));
-        break;
-
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,173 +23,316 @@ class _EstadisticasState extends State<Estadisticas> {
               children: [
                 /*Inicio Barra con nombre de Sección y Botón de Agregar*/
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      child: Text("Ahorro",
-                        style: TextStyle(
-                            fontFamily: 'Jost',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25
-                        ),
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('img/GetFundsLogoPequeño.png')
+                        )
                       ),
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: colorPrincipal,
-                          shape: CircleBorder()
-                      ),
-                      onPressed: (){},
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                    )
                   ],
                 ),
 
-                /*Imagen de Cerdito*/
-                Transform.rotate(
-                  angle: 226,
+                /*Bloques Estadisticos*/
+                SingleChildScrollView(
                   child: Container(
-                    height: 300,
-                    width: 300,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('img/ahorro.png')
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black12,
+                                        spreadRadius: 1,
+                                        blurRadius: 3,
+                                        offset: Offset(0, 2)
+                                    )
+                                  ]
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: colorPrincipal,
+                                          shape: BoxShape.circle
+                                        ),
+                                        child: Icon(Icons.money_off,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Container(
+                                    child: Text('Gastos Totales',
+                                      style: TextStyle(
+                                        fontFamily: 'Jost',
+                                        fontSize: 18,
+                                        color: colorPrincipal,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          child: Icon(Icons.attach_money,
+                                            color: colorPrincipal,
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Text('40000',
+                                            style: TextStyle(
+                                                fontFamily: 'Jost',
+                                              fontSize: 16,
+                                              color: colorPrincipal,
+                                              fontWeight: FontWeight.bold
+                                            ),
+                                          )
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 35),
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: colorPrincipal,
+                                borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black12,
+                                        spreadRadius: 1,
+                                        blurRadius: 3,
+                                        offset: Offset(0, 2)
+                                    )
+                                  ]
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Icon(Icons.attach_money,
+                                          color: colorPrincipal,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Container(
+                                    child: Text('Ingresos Totales',
+                                      style: TextStyle(
+                                          fontFamily: 'Jost',
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          child: Icon(Icons.attach_money,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        Container(
+                                            child: Text('60000',
+                                              style: TextStyle(
+                                                  fontFamily: 'Jost',
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white
+                                              ),
+                                            )
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 20,),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black12,
+                                    spreadRadius: 1,
+                                    blurRadius: 3,
+                                    offset: Offset(0, 2)
+                                )
+                              ]
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      child: Icon(Icons.balance),
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Container(
+                                      child: Text('Balance',
+                                        style: TextStyle(
+                                          fontFamily: 'Jost',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      child: Icon(Icons.attach_money),
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Container(
+                                      child: Text('20000',
+                                        style: TextStyle(
+                                          fontFamily: 'Jost',
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         )
+                      ],
                     ),
                   ),
                 ),
 
-                /*Contenedores de Ahorro*/
-                /*ListView(
-                  children: [
-                    ListTile(
-                      title: Text("Viajes"),
-                      subtitle: Text('300000'),
-                      leading: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('img/cartera.png')
-                          )
-                        ),
-                      ),
-                    )
-                  ],
-                ),*/
-
                 /*Barra de Navegación*/
-                /*Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                          color: Color.fromRGBO(2,114,33,1),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            FilledButton(
-                              style: FilledButton.styleFrom(
-                                backgroundColor: Colors.transparent
-                              ),
-                                onPressed: (){},
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage('img/hogarGetFunds.png',)
-                                    )
-                                  ),
-                                )
-                            ),
-                            FilledButton(
-                                style: FilledButton.styleFrom(
-                                    backgroundColor: Colors.transparent
-                                ),
-                                onPressed: (){},
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage('img/carteraGetFunds.png')
-                                      )
-                                  ),
-                                )
-                            ),
-                            FilledButton(
-                                style: FilledButton.styleFrom(
-                                    backgroundColor: Colors.transparent
-                                ),
-                                onPressed: (){},
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage('img/estadisticasGetFunds.png')
-                                      )
-                                  ),
-                                )
-                            ),
-                            FilledButton(
-                                style: FilledButton.styleFrom(
-                                    backgroundColor: Colors.transparent
-                                ),
-                                onPressed: (){},
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: AssetImage('img/ajustesGetFunds.png')
-                                      )
-                                  ),
-                                )
-                            )
-                          ],
-                        ),
-                      ),
+                Container(
+                  padding: EdgeInsets.only(top: 0, bottom: 10, left: 20, right: 20),
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: colorPrincipal,
                     ),
-
-                  ],
-                )*/
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        FilledButton(
+                            style: FilledButton.styleFrom(
+                                backgroundColor: Colors.transparent
+                            ),
+                            onPressed: (){
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context)=>home())
+                              );
+                            },
+                            child: Container(
+                              height: 25,
+                              width: 25,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('img/hogarGetFunds.png',)
+                                  )
+                              ),
+                            )
+                        ),
+                        FilledButton(
+                            style: FilledButton.styleFrom(
+                                backgroundColor: Colors.transparent
+                            ),
+                            onPressed: (){
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context)=>Ahorro())
+                              );
+                            },
+                            child: Container(
+                              height: 25,
+                              width: 25,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('img/carteraGetFunds.png')
+                                  )
+                              ),
+                            )
+                        ),
+                        FilledButton(
+                            style: FilledButton.styleFrom(
+                                backgroundColor: Colors.transparent
+                            ),
+                            onPressed: (){
+                            },
+                            child: Container(
+                              height: 25,
+                              width: 25,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('img/estadisticasGetFunds.png')
+                                  )
+                              ),
+                            )
+                        ),
+                        FilledButton(
+                            style: FilledButton.styleFrom(
+                                backgroundColor: Colors.transparent
+                            ),
+                            onPressed: (){
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context)=>Ajustes())
+                              );
+                            },
+                            child: Container(
+                              height: 25,
+                              width: 25,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('img/ajustesGetFunds.png')
+                                  )
+                              ),
+                            )
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items:const[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Inicio',
-              backgroundColor: colorPrincipal
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.access_alarm_rounded),
-              label: 'Ahorro',
-              backgroundColor: colorPrincipal
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.accessibility_outlined),
-              label: 'Estadisticas',
-              backgroundColor: Colors.red
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.ad_units),
-            label: 'Ajustes',
-            backgroundColor: Colors.purple
-          )
-        ],
-        type: BottomNavigationBarType.shifting,
       ),
     );
   }
