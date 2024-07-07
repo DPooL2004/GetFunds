@@ -25,6 +25,20 @@ class _HomeState extends State<home> {
     sumarEgresos();
   }
 
+  Future<void> _obtenerValor() async {
+    await Future.wait([sumarIngresos(), sumarEgresos()]);
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _obtenerValor();
+  }
+
+
   Future<void> sumarIngresos() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Registros').where('Tipo', isEqualTo: 'Ingreso').get();
 
