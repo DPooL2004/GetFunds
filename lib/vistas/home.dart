@@ -5,6 +5,7 @@ import 'package:getfunds/componentes/modal_Home.dart';
 import 'package:getfunds/registros.dart';
 import 'package:getfunds/vistas/ahorro.dart';
 import 'package:getfunds/vistas/ajustes.dart';
+import 'package:getfunds/vistas/estadisticas.dart';
 
 class home extends StatefulWidget { // Make it StatefulWidget
 
@@ -359,7 +360,11 @@ class _HomeState extends State<home> {
                         style: FilledButton.styleFrom(
                             backgroundColor: Colors.transparent
                         ),
-                        onPressed: (){},
+                        onPressed: (){
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context)=>Estadisticas())
+                          );
+                        },
                         child: Container(
                           height: 25,
                           width: 25,

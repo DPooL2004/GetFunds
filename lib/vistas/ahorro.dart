@@ -196,9 +196,6 @@ class _AhorroState extends State<Ahorro> {
                                 backgroundColor: Colors.transparent
                             ),
                             onPressed: (){
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context)=>Ahorro())
-                              );
                             },
                             child: Container(
                               height: 25,
