@@ -30,7 +30,7 @@ class _AhorroState extends State<Ahorro> {
       if (user != null) {
         setState(() {
           _correoUsuario = user.email ?? 'No email available';
-          getData();
+          _futureData = getData();
         });
       } else {
         _correoUsuario = 'No user signed in';
@@ -39,7 +39,17 @@ class _AhorroState extends State<Ahorro> {
   }
 
   Future<QuerySnapshot> getData() async {
-    return FirebaseFirestore.instance.collection('Ahorro').where('Correo', isEqualTo: _correoUsuario).get();
+    return FirebaseFirestore.instance
+        .collection('Ahorro')
+        .where('Correo', isEqualTo: _correoUsuario)
+        .get();
+  }
+
+  Future<void> _deleteRecord(String documentId) async {
+    await FirebaseFirestore.instance.collection('Ahorro').doc(documentId).delete();
+    setState(() {
+      _futureData = getData();
+    });
   }
 
   @override
@@ -121,6 +131,7 @@ class _AhorroState extends State<Ahorro> {
                             itemBuilder: (context, index) {
                               Map<String, dynamic> data = snapshot.data!
                                   .docs[index].data() as Map<String, dynamic>;
+                              String documentId = snapshot.data!.docs[index].id;
                                 return Container(
                                   margin: EdgeInsets.only(top: 10),
                                   decoration: BoxDecoration(
@@ -136,8 +147,17 @@ class _AhorroState extends State<Ahorro> {
                                       ]
                                   ),
                                   child: ListTile(
-                                    trailing: Icon(
-                                        Icons.keyboard_arrow_down_rounded),
+                                    trailing: FilledButton(
+                                      onPressed: (){
+                                        _deleteRecord(documentId);
+                                      },
+                                      child: Icon(Icons.delete,
+                                        color: Colors.red,
+                                      ),
+                                      style: FilledButton.styleFrom(
+                                        backgroundColor: Colors.transparent
+                                      ),
+                                    ),
                                     title: Text('${data['Nombre']}'),
                                     subtitle: Text('${data['Monto_Mensual']}'),
                                     leading: Container(
