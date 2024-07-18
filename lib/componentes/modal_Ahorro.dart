@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:getfunds/insertar/registrosAhorro.dart';
+import 'package:getfunds/vistas/ahorro.dart';
 
 class Modal_Ahorro extends StatefulWidget {
   @override
@@ -246,6 +247,7 @@ class __ModalContentState extends State<_ModalContent> {
                     duracion: duracion,
                     nombre: nombre,
                   );
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Ahorro()));
                 }
               },
               style: ElevatedButton.styleFrom(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:getfunds/colores.dart';
 import 'package:getfunds/insertar/insertarHome.dart';
+import 'package:getfunds/vistas/home.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -291,6 +292,7 @@ class __ModalContentState extends State<_ModalContent> {
                           fecha: _Fecha,
                           correo: _correoUsuario.text,
                         );
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>home()));
                       }
                     },
                     style: ElevatedButton.styleFrom(

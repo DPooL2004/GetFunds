@@ -28,26 +28,54 @@ class _HomeState extends State<home> {
     sumarIngresos();
     sumarEgresos();
     _getUserEmail();
+    fetchData1();
   }
 
   Future<void> _getUserEmail() async {
     User? user = FirebaseAuth.instance.currentUser;
     setState(() {
       if (user != null) {
-        _correoUsuario = user.email ?? 'No email available';
-        _futureData = getData(); // Load data after getting the email
+        _correoUsuario = user.email ?? 'No email available'; // Load data after getting the email
       } else {
         _correoUsuario = 'No user signed in';
       }
     });
   }
 
-  Future<QuerySnapshot> getData() async {
-    return FirebaseFirestore.instance
-        .collection('Registros')
-        .where('Correo', isEqualTo: _correoUsuario)
-        .get();
+  Future<Map<String, dynamic>> fetchData1() async {
+    double totalIngresos = 0;
+    double totalEgresos = 0;
+
+    double balance = totalIngresos - totalEgresos;
+
+
+    try {
+      /*Consulta para todos los regsitros seung correo*/
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Registros')
+          .where('Correo', isEqualTo: _correoUsuario).get();
+
+      querySnapshot.docs.forEach((doc) {
+        double valor = doc['Valor'].toDouble();
+        String tipo = doc['Tipo'];
+
+        if (tipo == 'Ingreso') {
+          totalIngresos += valor;
+        } else if (tipo == 'Egreso') {
+          totalEgresos += valor;
+        }
+      });
+    } catch (e) {
+      print("Error fetching data: $e");
+    }
+
+
+    return {
+      'totalIngresos': totalIngresos,
+      'totalEgresos': totalEgresos,
+      'balance': balance
+    };
   }
+
 
   Future<void> _obtenerValor() async {
     await Future.wait([sumarIngresos(), sumarEgresos()]);
@@ -159,151 +187,173 @@ class _HomeState extends State<home> {
             ),
             SizedBox(height: 10,),
             Container(
-              width: 300,
-              height: 200,
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(241,242,241,1),
-                  borderRadius: BorderRadius.circular(10.0)
-              ),
               child: Column(
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Resumen',
-                      style: TextStyle(
-                        color: Color.fromRGBO(87, 87, 87, 1),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        fontFamily: 'Jost'
-                      ),),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          child: Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 5),
-                                width: 20,
-                                height: 20,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage('img/ingresos.png')
-                                    )
-                                ),
-                              ),
-                              Container(
-                                child: Text('Ingresos',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      fontFamily: 'Jost'
-                                  ),),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Text('$totalIngresos',
-                            style: TextStyle(
-                                color: colorPrincipal,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                fontFamily: 'Jost'
-                            ),),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 20,
-                                height: 20,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage('img/egresos.png')
-                                    )
-                                ),
-                              ),
-                              Container(
-                                child: Text('Egresos',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      fontFamily: 'Jost'
-                                  ),),
-                              ),
-                            ],
-                          ),
-                        ),
+                  FutureBuilder(
+                      future: fetchData1(),
+                      builder: (context, snapshot){
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        } else if (!snapshot.hasData) {
+                          return Center(child: Text('No data available'));
+                        }else{
+                          double totalIngresos = snapshot.data!['totalIngresos'] ?? 0.0;
+                          double totalEgresos = snapshot.data!['totalEgresos'] ?? 0.0;
 
-                        Container(
-                          child: Text('$totalEgresos',
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                fontFamily: 'Jost'
-                            ),),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 20,
-                                height: 20,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage('img/balance.png')
-                                    )
+                          return Container(
+                            width: 300,
+                            height: 200,
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(241,242,241,1),
+                                borderRadius: BorderRadius.circular(10.0)
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(top: 20),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text('Resumen',
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(87, 87, 87, 1),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                          fontFamily: 'Jost'
+                                      ),),
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                child: Text('Balance',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16
-                                  ),),
-                              ),
-                            ],
-                          ),
-                        ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(left: 5),
+                                              width: 20,
+                                              height: 20,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                      image: AssetImage('img/ingresos.png')
+                                                  )
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Text('Ingresos',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                    fontFamily: 'Jost'
+                                                ),),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Text('$totalIngresos',
+                                          style: TextStyle(
+                                              color: colorPrincipal,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                              fontFamily: 'Jost'
+                                          ),),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: 20,
+                                              height: 20,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                      image: AssetImage('img/egresos.png')
+                                                  )
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Text('Egresos',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                    fontFamily: 'Jost'
+                                                ),),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
 
-                        Container(
+                                      Container(
+                                        child: Text('$totalEgresos',
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                              fontFamily: 'Jost'
+                                          ),),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: 20,
+                                              height: 20,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                      image: AssetImage('img/balance.png')
+                                                  )
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Text('Balance',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16
+                                                ),),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
 
-                          child: Text('${totalIngresos - totalEgresos}',
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                fontFamily: 'Jost'
-                            ),),
-                        ),
-                      ],
-                    ),
-                  ),
+                                      Container(
+
+                                        child: Text('${totalIngresos - totalEgresos}',
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18,
+                                              fontFamily: 'Jost'
+                                          ),),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      }
+                  )
                 ],
               ),
             ),
